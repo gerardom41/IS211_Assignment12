@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to the Dashboard!</h1>
+    <button onclick="window.location.href='/student/add'">Add student</button>
+    <button onclick="window.location.href='/quiz/add'">Add quiz</button>
+    <form method="POST" action="/student/id">
+        <label for="student_id">Student Id: </label>
+        <input type="number" name="student_id" required>
+        <input type="submit" value="View results">
+    </form>
+    <form method="POST" action="/results/add">
+        <label for="student_id">Student:</label>
+        <select name="student_id" required>
+            {% for student in students %}
+                <option value="{{ student[0] }}">{{ student[1] }} {{ student[2] }}</option>
+            {% endfor %}
+        </select>
+        <label for="quiz_id">Quiz:</label>
+        <select name="quiz_id" required>
+            {% for quiz in quizzes %}
+                <option value="{{ quiz[0] }}">{{ quiz[1] }}</option>
+            {% endfor %}
+        </select>
+        <label for="grade">Grade:</label>
+        <input type="number" name="grade" required>
+        <input type="submit" value="Add Result">
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <table>
+        <tr>
+            <th>Student Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+        {% for item in students %}
+        <tr>
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <table>
+        <tr>
+            <th>Quiz Id</th>
+            <th>Subject</th>
+            <th># of questions</th>
+            <th>Date</th>
+        </tr>
+        {% for item in quizzes %}
+        <tr>
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
